@@ -1,9 +1,9 @@
 const express=require('express')
 const app=express()
-const porta=3000
-const rotadmin = require('./src/admin')
-
-//app.use(express.json());
+const porta=4000
+const rotadmin = require('./src/routes/admin')
+require('./config/database');
+app.use(express.json());
 
 
 
@@ -16,3 +16,6 @@ res.json({tittle: 'tarefa x', feito: false })
 app.listen(porta,()=>{
 console.log('servidor iniciado na porta '+porta)
 })
+
+
+
