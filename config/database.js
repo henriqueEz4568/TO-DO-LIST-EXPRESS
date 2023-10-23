@@ -1,17 +1,9 @@
 const mongoose = require('mongoose');
 mongoose.Promise = global.Promise;
 
-mongoose.connect('mongodb://localhost/todo', {
+mongoose.connect('mongodb://127.0.0.1/teste', {
   useNewUrlParser: true,
   useUnifiedTopology: true
-});
-
-const db = mongoose.connection;
-
-db.on('error', (err) => {
-  console.error('Erro na conexão com o MongoDB:', err);
-});
-
-db.once('open', () => {
-  console.log('Conectado ao MongoDB');
-});
+})
+.then(()=>console.log('conectado'))
+.catch((err)=>console.error(err));

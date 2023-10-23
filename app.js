@@ -1,6 +1,6 @@
 const express=require('express')
 const app=express()
-const porta=4000
+const porta=3000
 const rotadmin = require('./src/routes/admin')
 require('./config/database');
 app.use(express.json());
