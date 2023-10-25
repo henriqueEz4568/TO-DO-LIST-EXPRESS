@@ -10,9 +10,11 @@ router.get('/sexo', (req, res) => {
     res.send('sexo');
 });
 
-router.get('/', (req, res) => {
-    console.log('olá');
-    res.send('pagina checklist');
+router.get('/',async (req, res) => {
+    try{
+        let checklist =await Checklist.find();
+        res.status(200).json(checklist)
+    }catch(error){res.status(500).json(error)}
 });
 
 router.post('/', async(req, res) => {
