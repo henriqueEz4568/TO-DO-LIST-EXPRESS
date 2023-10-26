@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Checklist = require('../models/checklist');
-
+router.get('/home', async(req,res)=>{res.render('pages/index')})
 router.get('/checklist', (req, res) => {
     res.send();
 });
@@ -9,20 +9,16 @@ router.get('/checklist', (req, res) => {
 
 
 router.get('/',async (req, res) => {
-    try{
-        let checklist =await Checklist.find();
-        res.status(200).json(checklist)
-    }catch(error){res.status(500).json(error)}
+try{
+let checklist =await Checklist.find();
+res.status(200).json(checklist)
+}catch(error){res.status(500).json(error)}
 });
 
 router.post('/', async(req, res) => {
    let {name}= req.body;
 try{let checklist=await Checklist.create({ name })  
 res.status(200).json(checklist)}catch(error){res.status(422).json(error)}
-console.log({name})
-
-
-   // res.status(200).json(req.body);
 });
 router.get('/criando:teste',(req,res)=>{
     const id =req.params.teste;
