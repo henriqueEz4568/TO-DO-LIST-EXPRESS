@@ -13,16 +13,19 @@
       </div>
 
       <div class="columns is-multiline">
-        <%  checklists.forEach(checklist=>{ %>
+        <%  checklists.forEach(checklist => { %>
         <div class="column is-one-quarter">
           <div class="card has-background-white-ter">
             <div class="card-content">
               <p class="subtitle is-size-5">
                 <%= checklist.name %>
               </p>
-              <p class="subtitle is-size-6">
-               <%= checklists.tasks %>
-              </p>
+              <!-- Se tasks é um array, você precisa iterar por ele também -->
+              <% checklist.tasks.forEach(task => { %>
+                <p class="subtitle is-size-6">
+                  <%= task %>
+                </p>
+              <% }) %>
             </div>
             <footer class="card-footer">
               <p class="card-footer-item">
@@ -46,5 +49,5 @@
         <% }) %>
       </div>
     </div>
-  </section>
+</section>
 <%- include('../layouts/footer') %>

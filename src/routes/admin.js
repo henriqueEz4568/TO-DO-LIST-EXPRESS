@@ -31,12 +31,17 @@ try{
 }catch(error){res.status(422).json(error)}})
 
 
-router.get('/:id', async(req, res) => {try{
-    let checklist =await Checklist.findById(req.params.id);
-    res.status(200).render('/checklists/show',{checklists:checklists})
-}catch(error){res.status(422).json(error)}
-    
-});
+router.get('/:id', async (req, res) => {
+    try {
+      const checklist = await Checklist.findById(req.params.id);
+      if (!checklist) {
+        return res.status(404).send('Checklist não encontrado');
+      }
+      res.render('checklists/show', { checklist: checklist });
+    } catch (error) {
+      res.status(500).json(error);
+    }
+  });
 
 router.put('/:id',async (req, res) => {
 let {name} = req.body
