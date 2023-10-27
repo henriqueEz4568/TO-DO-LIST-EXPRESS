@@ -9,39 +9,43 @@ router.get('/home', async(req,res)=>{res.render('pages/index')})
 
 router.get('/home',async(req,res)=>{try{let checklists=await Checklist.find({});
 res.status(200).render('layouts/index',{checklists:checklists})}catch(error){res.status(500).json(error)}})
+
 router.get('/',async (req, res) => {
 try{
 let checklists =await Checklist.find({});
-res.status(200).render('checklists/index',{checklists:checklists})
+res.status(200).render('checklist/index',{checklists:checklists})
 }catch(error){res.status(500).json(error)}
 });
 
-router.post('/', async(req, res) => {
-   let {name}= req.body;
-try{let checklist=await Checklist.create({ name })  
-res.status(200).json(checklist)}catch(error){res.status(422).json(error)}
-});
-router.get('/criando:teste',(req,res)=>{
-    const id =req.params.teste;
-    res.send(`pagina teste e id ${id}`)})
-router.post('/criando:teste',async(req,res)=>{let { name } = req.body;
-try{
-    let checklist=await Checklist.create({ name })
-    res.status(200).json(checklist)
-}catch(error){res.status(422).json(error)}})
+
+
 
 
 router.get('/:id', async (req, res) => {
     try {
-      const checklist = await Checklist.findById(req.params.id);
-      if (!checklist) {
+      const checklists = await Checklist.findById(req.params.id);
+      if (!checklists  ) {
         return res.status(404).send('Checklist não encontrado');
       }
-      res.render('checklists/show', { checklist: checklist });
+      res.render('checklists/show', { checklists: checklists });
     } catch (error) {
-      res.status(500).json(error);
+      res.send('deu ruim');
     }
   });
+
+
+
+
+
+
+
+
+  router.post('/', async(req, res) => {
+    let {name}= req.body;
+ try{let checklist=await Checklist.create({ name })  
+ res.status(200).json(checklist)}catch(error){res.status(422).json(error)}
+ });
+
 
 router.put('/:id',async (req, res) => {
 let {name} = req.body
