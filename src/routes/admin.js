@@ -2,16 +2,17 @@ const express = require('express');
 const router = express.Router();
 const Checklist = require('../models/checklist');
 router.get('/home', async(req,res)=>{res.render('pages/index')})
-router.get('/checklist', (req, res) => {
+/*router.get('/checklist', (req, res) => {
     res.send();
-});
+});*/
 
 
-
+router.get('/home',async(req,res)=>{try{let checklists=await Checklist.find({});
+res.status(200).render('layouts/index',{checklists:checklists})}catch(error){res.status(500).json(error)}})
 router.get('/',async (req, res) => {
 try{
-let checklist =await Checklist.find();
-res.status(200).render('checklists/index',{checklist:checklist})
+let checklists =await Checklist.find({});
+res.status(200).render('checklists/index',{checklists:checklists})
 }catch(error){res.status(500).json(error)}
 });
 
@@ -32,7 +33,7 @@ try{
 
 router.get('/:id', async(req, res) => {try{
     let checklist =await Checklist.findById(req.params.id);
-    res.status(200).json(checklist)
+    res.status(200).render('/checklists/show',{checklists:checklists})
 }catch(error){res.status(422).json(error)}
     
 });
