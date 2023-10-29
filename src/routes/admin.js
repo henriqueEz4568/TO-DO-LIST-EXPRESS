@@ -13,7 +13,7 @@ res.status(200).render('layouts/index',{checklists:checklists})}catch(error){res
 router.get('/',async (req, res) => {
 try{
 let checklists =await Checklist.find({});
-res.status(200).render('checklist/index',{checklists:checklists})
+res.status(200).render('checklists/index',{checklists:checklists})
 }catch(error){res.status(500).json(error)}
 });
 
@@ -22,16 +22,13 @@ res.status(200).render('checklist/index',{checklists:checklists})
 
 
 router.get('/:id', async (req, res) => {
-    try {
-      const checklists = await Checklist.findById(req.params.id);
-      if (!checklists  ) {
-        return res.status(404).send('Checklist não encontrado');
-      }
-      res.render('checklists/show', { checklists: checklists });
-    } catch (error) {
-      res.send('deu ruim');
-    }
-  });
+  try {
+    let checklist = await Checklist.findById(req.params.id);
+    res.status(200).render('checklists/show', { checklist: checklist})
+  } catch (error) {
+    res.status(500).render('pages/error', {error: 'Erro ao exibir as Listas de tarefas'});
+  }
+})
 
 
 
