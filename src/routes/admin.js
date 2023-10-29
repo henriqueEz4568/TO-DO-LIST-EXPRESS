@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Checklist = require('../models/checklist');
+const { asyncScheduler } = require('rxjs');
 router.get('/home', async(req,res)=>{res.render('pages/index')})
 /*router.get('/checklist', (req, res) => {
     res.send();
@@ -16,7 +17,13 @@ let checklists =await Checklist.find({});
 res.status(200).render('checklists/index',{checklists:checklists})
 }catch(error){res.status(500).json(error)}
 });
-
+router.get('/new', async(req,res)=>{
+  try{let checklist = new Checklist()
+  res.status(200).render('checklists/new', {checklist:checklist})
+  
+  }
+  catch(error){res.status(500).render('pages/error',{errors:'erro ao carregar o form'})}
+})
 
 
 
@@ -37,11 +44,17 @@ router.get('/:id', async (req, res) => {
 
 
 
-  router.post('/', async(req, res) => {
-    let {name}= req.body;
- try{let checklist=await Checklist.create({ name })  
- res.status(200).json(checklist)}catch(error){res.status(422).json(error)}
- });
+router.post('/', async (req, res) => {
+  let { name } = req.body.checklist;
+  let checklist = new Checklist({name})
+
+  try {
+    await checklist.save();
+    res.redirect('/checklists');
+  } catch (error) {
+    res.status(422).render('checklists/new', { checklist: { ...checklist, error}})
+  }
+})
 
 
 router.put('/:id',async (req, res) => {
